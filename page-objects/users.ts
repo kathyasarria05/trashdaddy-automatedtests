@@ -5,6 +5,8 @@ export class UsersPage {
 
   constructor(private page: Page) {
     this.searchInput = page.getByRole('textbox', { name: 'Search Users' });
+
+
   }
 
   async searchByUserName(name: string) {
@@ -12,5 +14,9 @@ export class UsersPage {
     await this.page.keyboard.press('Enter');
   }
 
+  async editFirstUserByName(name: string) {
+    await this.page.getByRole('link', { name: /^Edit$/ }).first().click();
+    return `^Edit\\s+"${name}"$`;
+  }
 }
 
