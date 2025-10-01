@@ -19,7 +19,7 @@ export class Navigation {
 
     public async navigateToOrders() {
         await this.page.getByRole('menuitem', { name: 'Orders' }).click();
-        await this.page.waitForURL(/#\/Orders$/);
+        await this.page.waitForURL(/\/#\/Orders\/?(?:\?.*)?$/);
     }
 
     public async navigateToCommissions() {
@@ -29,17 +29,17 @@ export class Navigation {
 
     public async navigateToPayments() {
         await this.page.getByRole('menuitem', { name: 'Payments' }).click();
-        await this.page.waitForURL(/#\/Payments$/);
+        await this.page.waitForURL(/#\/listCommissionPaymentsExtended$/);
     }
 
     public async navigateToDistricts() {
         await this.page.getByRole('menuitem', { name: 'Districts' }).click();
-        await this.page.waitForURL(/#\/Districts$/);
+        await this.page.waitForURL(/\/#\/listDistrictsExtended\/?(?:\?.*)?$/);
     }
 
     public async navigateToDumpSites() {
         await this.page.getByRole('menuitem', { name: 'Dump Sites' }).click();
-        await this.page.waitForURL(/#\/DumpSites$/);
+        await this.page.waitForURL(/#\/listDumpsitesExtended$/);
     }
 
     public async navigateToWaitingList() {
