@@ -28,3 +28,14 @@ test('edit a user', async ({ page }) => {
     await expect(page.getByRole('heading', { level: 6, name: new RegExp(editFormTitle, 'i') })).toBeVisible();
    
 });
+
+test('delete a user', async ({ page }) => {
+    const usersPage = new UsersPage(page);
+    await usersPage.searchByUserName('Kathyas');
+    await expect(page.getByRole('row').nth(1).getByRole('cell').first()).toHaveText(/Kathya/)
+    const editFormTitle = await usersPage.editFirstUserByName('Kathya');
+    await expect(page.getByRole('heading', { level: 6, name: new RegExp(editFormTitle, 'i') })).toBeVisible();
+    await usersPage.deleteUser();
+    await expect(page.getByRole('heading', { name: 'Deleting Account' })).toBeVisible();  
+});
+

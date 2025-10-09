@@ -2,11 +2,12 @@ import { Page, Locator } from '@playwright/test';
 
 export class UsersPage {
   private searchInput: Locator;
+ 
 
   constructor(private page: Page) {
     this.searchInput = page.getByRole('textbox', { name: 'Search Users' });
-
-
+    
+    
   }
 
   async searchByUserName(name: string) {
@@ -18,5 +19,9 @@ export class UsersPage {
     await this.page.getByRole('link', { name: /^Edit$/ }).first().click();
     return `^Edit\\s+"${name}"$`;
   }
-}
 
+  async deleteUser() {
+     await this.page.getByRole('button', { name: 'Delete' }).click();;
+  }
+
+}
