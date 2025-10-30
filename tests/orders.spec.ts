@@ -45,44 +45,43 @@ test('Select each status from the dropdown and verify', async ({ page }) => {
 
 
 test('Change status to Pending and verify', async ({ page }) => {
-  const ordersPage = new OrdersPage(page);
-  await ordersPage.clickOnAddFilter();
-  await ordersPage.selectStatusFilterOption();
-  await ordersPage.changeToStatusPending();
+    const ordersPage = new OrdersPage(page);
+    await ordersPage.clickOnAddFilter();
+    await ordersPage.selectStatusFilterOption();
+    await ordersPage.changeToStatusPending();
 
-  const emptyState = page.getByText(/No Orders were found with the current filters\./i);
-  const rows       = page.locator('tbody tr');
+    const emptyState = page.getByText(/No Orders were found with the current filters\./i);
+    const rows = page.locator('tbody tr');
 
-  // 1) Espera a que ocurra uno de los dos escenarios
-  await Promise.race([
-    emptyState.waitFor({ state: 'visible', timeout: 8000 }),
-    rows.first().waitFor({ state: 'visible', timeout: 8000 }),
-  ]).catch(() => {});
 
-  // 2) Si no hay filas, valida el empty state y sal
-  if (await emptyState.isVisible()) {
-    await expect(emptyState).toBeVisible();
-    return;
-  }
+    await Promise.race([
+        emptyState.waitFor({ state: 'visible', timeout: 8000 }),
+        rows.first().waitFor({ state: 'visible', timeout: 8000 }),
+    ]).catch(() => { });
 
-  // 3) Hay filas: espera a que se vaya el "skeleton"
-  //    (ajusta el selector si tu skeleton usa otra clase)
-  const skeletons = page.locator('[class*="Skeleton"]');
-  await expect(skeletons).toHaveCount(0, { timeout: 8000 });
 
-  // 4) Ahora sí, lee y normaliza la columna de Status (ajusta el índice si no es la 2ª)
-  const statusCells = page.locator('tbody tr td:nth-of-type(2)');
+    if (await emptyState.isVisible()) {
+        await expect(emptyState).toBeVisible();
+        return;
+    }
 
-  // Espera hasta que todas las celdas tengan texto no vacío
-  await expect(async () => {
-    const texts = (await statusCells.allInnerTexts()).map(t => t.trim());
-    expect(texts.length).toBeGreaterThan(0);
-    // asegúrate de que ninguna esté vacía
-    expect(texts.some(t => t.length === 0)).toBe(false);
-  }).toPass({ timeout: 8000 });
 
-  // 5) Verifica que todas digan "Pending"
-  const statuses = (await statusCells.allInnerTexts()).map(t => t.trim().toLowerCase());
-  expect(new Set(statuses)).toEqual(new Set(['pending']));
+    const skeletons = page.locator('[class*="Skeleton"]');
+    await expect(skeletons).toHaveCount(0, { timeout: 8000 });
+
+
+    const statusCells = page.locator('tbody tr td:nth-of-type(2)');
+
+
+    await expect(async () => {
+        const texts = (await statusCells.allInnerTexts()).map(t => t.trim());
+        expect(texts.length).toBeGreaterThan(0);
+
+        expect(texts.some(t => t.length === 0)).toBe(false);
+    }).toPass({ timeout: 8000 });
+
+
+    const statuses = (await statusCells.allInnerTexts()).map(t => t.trim().toLowerCase());
+    expect(new Set(statuses)).toEqual(new Set(['pending']));
 });
 
