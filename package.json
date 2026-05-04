@@ -2,7 +2,10 @@
   "name": "td-automation-project",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "playwright test",
+    "test:login": "playwright test tests/login.spec.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
