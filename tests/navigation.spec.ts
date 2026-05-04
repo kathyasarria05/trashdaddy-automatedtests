@@ -27,10 +27,10 @@ test('navigate to orders page', async ({ page }) => {
     await expect(page).toHaveURL(/\/#\/Orders\/?(?:\?.*)?$/);
 });
 
-test('navigate to commissions page', async ({ page }) => {
+test('navigate to earnings page', async ({ page }) => {
   const navigateTo = new Navigation(page);
   await navigateTo.navigateToCommissions();
-  await expect(page).toHaveURL(/\/#\/Commissions$/);
+  await expect(page).toHaveURL(/\/#\/(?:Commissions|Earnings)$/);
 });
 
 test('navigate to payments page', async ({ page }) => {

@@ -23,8 +23,8 @@ export class Navigation {
     }
 
     public async navigateToCommissions() {
-        await this.page.getByRole('menuitem', { name: 'Commissions' }).click();
-        await this.page.waitForURL(/#\/Commissions$/);
+        await this.page.getByRole('menuitem', { name: 'Earnings' }).click();
+        await this.page.waitForURL(/#\/(?:Commissions|Earnings)$/);
     }
 
     public async navigateToPayments() {
